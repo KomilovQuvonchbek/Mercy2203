@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="uz">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+  <meta name="theme-color" content="#1a0006"/>
+  <title>Maftuna & Fayzullajon | To‘y taklifnomasi</title>
+  <meta name="description" content="Maftuna va Fayzullajonning nikoh to‘yiga taklifnoma. 28-noyabr 2026, soat 18:00, Iqbol to‘yxonasi."/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:title" content="Maftuna & Fayzullajon — To‘y taklifnomasi"/>
+  <meta property="og:description" content="28-noyabr 2026 • soat 18:00 • Iqbol to‘yxonasi"/>
+  <meta property="og:image" content="assets/og-image.jpg"/>
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
+  <link rel="preload" href="assets/glitter.jpg" as="image"/>
+  <link rel="preload" href="assets/stage.jpg" as="image"/>
+  <link rel="preload" href="assets/fonts/great-vibes-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin/>
+  <link rel="preload" href="assets/fonts/amiri-quran-arabic-400-normal.woff2" as="font" type="font/woff2" crossorigin/>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body class="is-locked">
+
+<main id="experience" class="experience" data-phase="intro">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero" aria-label="Maftuna va Fayzullajon to‘y taklifnomasi">
+
+    <!-- 1. Sahna rasmi (yozuvsiz) -->
+    <div class="stage">
+      <img class="stage-poster" id="poster" src="assets/stage.jpg" width="941" height="1672"
+           alt="Sahnada turgan kelin va kuyov, qizil nurlar va tutun."/>
+      <canvas id="ambientCanvas" class="ambient" aria-hidden="true"></canvas>
+    </div>
+
+    <!-- 2. Animatsiyali taklif matni -->
+    <div class="invite" id="invite">
+      <p class="inv-eyebrow">To‘yimizga taklif qilamiz</p>
+      <div class="inv-rule" aria-hidden="true"><i></i><svg viewBox="0 0 24 24"><path d="M12 21s-7.5-4.6-9.6-9.2C1 8.6 3 5 6.4 5c2.1 0 3.6 1.2 4.6 2.7C12 6.2 13.5 5 15.6 5 19 5 21 8.6 19.6 11.8 17.5 16.4 12 21 12 21z"/></svg><i></i></div>
+      <h1 class="inv-names">
+        <span class="name n1">Maftuna</span>
+        <span class="amp">&amp;</span>
+        <span class="name n2">Fayzullajon</span>
+      </h1>
+      <p class="inv-msg" id="invMsg">Nikoh to‘yimizda Sizning aziz mehmon bo‘lishingizdan mamnunmiz!</p>
+      <div class="inv-rule small" aria-hidden="true"><i></i><svg viewBox="0 0 24 24"><path d="M12 3l3 9-3 9-3-9z"/></svg><i></i></div>
+      <p class="inv-date" aria-label="28-noyabr 2026">
+        <span class="g"><span>28</span></span><b>·</b><span class="g"><span>11</span></span><b>·</b><span class="g"><span>2026</span></span>
+      </p>
+      <p class="inv-time">Shanba &nbsp;·&nbsp; soat 18:00</p>
+      <p class="inv-venue"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg><span id="invVenue">Iqbol to‘yxonasi</span></p>
+    </div>
+
+    <!-- 3. Baxmal parda (WebGL) -->
+    <canvas id="drapeCanvas" class="drape" aria-hidden="true"></canvas>
+    <div class="spotlight" aria-hidden="true"></div>
+    <div class="proscenium" aria-hidden="true"></div>
+
+    <!-- 4. Qizil qum yaltiroq -->
+    <div class="sand-placeholder" aria-hidden="true"></div>
+    <canvas id="sandCanvas" class="sand" aria-hidden="true"></canvas>
+    <canvas id="grainCanvas" class="grains" aria-hidden="true"></canvas>
+
+    <!-- 5. Kirish matni -->
+    <div class="intro" id="intro">
+      <div class="intro-top">
+        <p class="lead">Yaltiroqlar ortida siz uchun<br/>taklifnoma yashiringan</p>
+        <p class="initials" aria-label="M va F">M <i>&amp;</i> F</p>
+      </div>
+      <div class="intro-bottom">
+        <h2 class="blow-title">Yaltiroqlarni puflang</h2>
+        <p class="sub">birgina mayin nafas kifoya</p>
+        <div class="intro-actions">
+          <button id="startButton" class="btn btn-gold" type="button">Taklifnomani ochish</button>
+          <button id="micButton" class="btn btn-ghost mic" type="button" aria-label="Mikrofonga puflash">
+            <span class="mic-level" aria-hidden="true"></span>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.9V22h2v-3.1A7 7 0 0 0 19 12z"/></svg>
+          </button>
+        </div>
+        <p class="hint" id="hint">Mikrofonga puflang, barmoq bilan arting yoki tugmani bosing</p>
+      </div>
+    </div>
+
+    <a class="scroll-cue" href="#details" aria-label="Batafsil ma’lumotga o‘tish">
+      <span>Batafsil</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </a>
+  </section>
+
+  <!-- ============ TAFSILOTLAR ============ -->
+  <section class="details" id="details" aria-label="To‘y tafsilotlari">
+    <figure class="ayah">
+      <p class="ayah-ar" lang="ar" dir="rtl">هُوَ ٱلَّذِى خَلَقَكُم مِّن نَّفْسٍۢ وَٰحِدَةٍۢ وَجَعَلَ مِنْهَا زَوْجَهَا لِيَسْكُنَ إِلَيْهَا</p>
+      <figcaption>
+        <p class="ayah-uz">«U sizlarni bir jondan yaratgan va orom olsin uchun undan juftini yaratgan Zotdir.»</p>
+        <p class="ayah-ref">A’rof surasi, 189-oyat</p>
+      </figcaption>
+    </figure>
+
+    <div class="ornament" aria-hidden="true"><svg viewBox="0 0 240 24"><use href="#divider"/></svg></div>
+
+    <p class="greeting">Qadrli mehmonimiz!</p>
+    <p class="message">Hayotimizning eng baxtli kunida — nikoh to‘yimizda Sizni yonimizda ko‘rish biz uchun katta sharaf. Tashrifingiz bilan quvonchimizga sherik bo‘ling.</p>
+
+    <!-- Taymer -->
+    <div class="card countdown-card reveal">
+      <p class="card-label">To‘yga qoldi</p>
+      <div class="countdown" id="countdown" role="timer" aria-live="off">
+        <div class="unit"><span class="num" data-unit="d">00</span><span class="lbl">kun</span></div>
+        <i aria-hidden="true">:</i>
+        <div class="unit"><span class="num" data-unit="h">00</span><span class="lbl">soat</span></div>
+        <i aria-hidden="true">:</i>
+        <div class="unit"><span class="num" data-unit="m">00</span><span class="lbl">daqiqa</span></div>
+        <i aria-hidden="true">:</i>
+        <div class="unit"><span class="num" data-unit="s">00</span><span class="lbl">soniya</span></div>
+      </div>
+      <p class="countdown-done" id="countdownDone" hidden>Bugun — to‘y kuni! Sizni kutamiz.</p>
+    </div>
+
+    <!-- Sana va vaqt -->
+    <div class="card date-card reveal">
+      <div class="date-block">
+        <span class="weekday">Shanba</span>
+        <span class="day">28</span>
+        <span class="month">noyabr · 2026</span>
+      </div>
+      <div class="date-sep" aria-hidden="true"></div>
+      <div class="date-block">
+        <span class="weekday">Boshlanishi</span>
+        <span class="day">18:00</span>
+        <span class="month">soatda</span>
+      </div>
+      <button class="btn btn-ghost wide" id="calendarButton" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2V2h-2v2H9V2zm-2 8h14v10H5zm6 2v2H9v2h2v2h2v-2h2v-2h-2v-2z"/></svg>
+        Kalendarga qo‘shish
+      </button>
+      <a class="text-link" id="googleCalLink" href="#" target="_blank" rel="noopener">Google Kalendar orqali</a>
+    </div>
+
+    <!-- Manzil -->
+    <div class="card venue-card reveal">
+      <svg class="venue-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>
+      <p class="card-label">Manzil</p>
+      <p class="venue-name" id="venueName">Iqbol to‘yxonasi</p>
+      <p class="venue-addr" id="venueAddress" hidden></p>
+      <div class="btn-row">
+        <a class="btn btn-gold" id="yandexLink" href="#" target="_blank" rel="noopener">Yandex xarita</a>
+        <a class="btn btn-ghost" id="googleMapLink" href="#" target="_blank" rel="noopener">Google xarita</a>
+      </div>
+    </div>
+
+    <!-- Tabriklar -->
+    <div class="card wish-card reveal">
+      <svg class="venue-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4.2-8 5-8-5V6l8 5 8-5z"/></svg>
+      <p class="card-label">Tabriklar</p>
+      <p class="wish-title">Tabrik yo‘llang</p>
+      <p class="wish-text">Yosh oilaga ezgu tilaklaringizni yozing va rasmlaringizni ulashing. Ular to‘g‘ridan-to‘g‘ri kelin-kuyovga yetib boradi.</p>
+      <div class="btn-row">
+        <button class="btn btn-gold" id="wishOpen" type="button">Tabrik yozish</button>
+        <a class="btn btn-ghost" id="wishTg" href="#" target="_blank" rel="noopener" hidden>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.4 4.1 2.9 11.3c-1.2.5-1.2 1.2-.2 1.5l4.7 1.5 1.8 5.6c.2.6.4.8.9.8.4 0 .6-.2.9-.4l2.3-2.2 4.7 3.5c.9.5 1.5.2 1.7-.8l3.1-14.5c.3-1.3-.5-1.9-1.4-1.5zM9.6 14.4l-.4 4.3-1.4-4.6 10.4-6.5z"/></svg>
+          Telegram orqali
+        </a>
+      </div>
+    </div>
+
+    <div class="signoff reveal">
+      <p>Hurmat bilan,</p>
+      <p class="sign">Maftuna <span>&amp;</span> Fayzullajon</p>
+    </div>
+
+    <div class="final-actions">
+      <button id="shareButton" class="btn btn-ghost" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 16a3 3 0 0 0-2.4 1.2l-6.7-3.4a3 3 0 0 0 0-1.6l6.7-3.4A3 3 0 1 0 15 7l-6.7 3.4a3 3 0 1 0 0 3.2L15 17a3 3 0 1 0 3-1z"/></svg>
+        Ulashish
+      </button>
+      <button id="replayButton" class="btn btn-ghost" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5V2L7 6l5 4V7a5 5 0 1 1-5 5H5a7 7 0 1 0 7-7z"/></svg>
+        Qayta ko‘rish
+      </button>
+    </div>
+  </section>
+
+  <!-- Tabrik oynasi -->
+  <dialog class="wish-dialog" id="wishDialog" aria-labelledby="wishHeading">
+    <form class="wish-form" id="wishForm" method="dialog" novalidate>
+      <button class="wish-close" type="button" id="wishClose" aria-label="Yopish">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" fill="none"/></svg>
+      </button>
+      <div class="wish-body" id="wishBody">
+        <p class="card-label">Tabriklar</p>
+        <h2 class="wish-heading" id="wishHeading">Tabrik yo‘llang</h2>
+        <label class="field">
+          <span>Ismingiz</span>
+          <input id="wishName" name="name" type="text" maxlength="60" autocomplete="name" placeholder="Masalan: Aziza opa"/>
+        </label>
+        <label class="field">
+          <span>Tabrigingiz</span>
+          <textarea id="wishText" name="text" rows="5" maxlength="1500" placeholder="Ezgu tilaklaringizni yozing…"></textarea>
+          <em class="count" id="wishCount">0 / 1500</em>
+        </label>
+        <div class="field">
+          <span>Rasmlar <small>(ixtiyoriy, 5 tagacha)</small></span>
+          <div class="thumbs" id="wishThumbs">
+            <label class="add-photo" id="wishAdd">
+              <input id="wishFiles" type="file" accept="image/*" multiple/>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" fill="none"/></svg>
+              <span>Rasm qo‘shish</span>
+            </label>
+          </div>
+        </div>
+        <input class="hp" id="wishHp" name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true"/>
+        <p class="wish-status" id="wishStatus" role="status" aria-live="polite"></p>
+        <button class="btn btn-gold wish-send" id="wishSend" type="submit">
+          <span class="spinner" aria-hidden="true"></span><span>Yuborish</span>
+        </button>
+      </div>
+      <div class="wish-done" id="wishDone" hidden>
+        <svg class="done-heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.6-9.2C1 8.6 3 5 6.4 5c2.1 0 3.6 1.2 4.6 2.7C12 6.2 13.5 5 15.6 5 19 5 21 8.6 19.6 11.8 17.5 16.4 12 21 12 21z"/></svg>
+        <p class="wish-heading">Rahmat!</p>
+        <p class="wish-text">Tabrigingiz kelin-kuyovga yetkazildi.</p>
+        <div class="btn-row">
+          <button class="btn btn-ghost" type="button" id="wishAgain">Yana yozish</button>
+          <button class="btn btn-gold" type="button" id="wishFinish">Yopish</button>
+        </div>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Musiqa -->
+  <button class="music-toggle" id="musicToggle" type="button" aria-label="Musiqani o‘chirish" aria-pressed="true" hidden>
+    <svg class="note" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18.5a2.5 2.5 0 1 1-2-2.45V5l11-2v12.5a2.5 2.5 0 1 1-2-2.45V7.2L9 8.5z"/></svg>
+    <span class="bars" aria-hidden="true"><i></i><i></i><i></i></span>
+  </button>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</main>
+
+<!-- Qayta ishlatiladigan SVG bezaklar -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="goldStroke" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#9c6a2c"/><stop offset=".35" stop-color="#ffe2a8"/>
+      <stop offset=".6" stop-color="#c18d45"/><stop offset="1" stop-color="#f7d8a0"/>
+    </linearGradient>
+    <symbol id="divider" viewBox="0 0 240 24">
+      <g fill="none" stroke="#dcb373" stroke-width="1" stroke-linecap="round">
+        <path d="M6 12H92"/><path d="M148 12H234"/>
+        <path d="M92 12q10-9 20 0q-10 9-20 0z"/><path d="M148 12q-10-9-20 0q10 9 20 0z"/>
+      </g>
+      <path d="M120 4l4 8-4 8-4-8z" fill="#f2cf91"/>
+      <circle cx="6" cy="12" r="1.5" fill="#f2cf91"/><circle cx="234" cy="12" r="1.5" fill="#f2cf91"/>
+    </symbol>
+  </defs>
+</svg>
+
+<script src="script.js"></script>
+</body>
+</html>
