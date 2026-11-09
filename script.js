@@ -5,7 +5,7 @@
 const BASE = (document.currentScript && document.currentScript.src) ? new URL('.', document.currentScript.src).href : '';
 
 const CONFIG = {
-  couple: 'Maftuna & Fayzullajon',
+  couple: 'Fayzullajon & Maftuna',
   // To‘y vaqti (Toshkent vaqti, +05:00)
   start: '2026-11-28T18:00:00+05:00',
   end:   '2026-11-28T23:00:00+05:00',
@@ -25,7 +25,7 @@ const CONFIG = {
   curtainImage: BASE + 'assets/velvet.jpg',    // bo‘sh qolsa — kod o‘zi chizadi
   // Tabriklar: sayt formasi shu manzilga yuboradi (Netlify funksiyasi). Bot nomi avtomatik olinadi.
   wishEndpoint: '/api/tabrik',
-  botUsername: '',          // ixtiyoriy: masalan 'maftuna_fayzullajon_bot' (bo‘sh — avtomatik)
+  botUsername: '',          // ixtiyoriy: masalan 'MaftunaFayzullajonbot' (bo‘sh — avtomatik)
   // Fon musiqasi. Fayl bo‘lmasa, musiqa tugmasi chiqmaydi.
   music: BASE + 'assets/music.mp3',
   musicVolume: 0.55
@@ -810,7 +810,7 @@ const CONFIG = {
   function buildICS(){
     return [
       'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//MF Wedding//Taklifnoma//UZ', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH',
-      'BEGIN:VEVENT', 'UID:maftuna-fayzullajon-20261128@taklifnoma',
+      'BEGIN:VEVENT', 'UID:fayzullajon-maftuna-20261128@taklifnoma',
       'DTSTAMP:' + toICSDate(new Date().toISOString()),
       'DTSTART:' + toICSDate(CONFIG.start), 'DTEND:' + toICSDate(CONFIG.end),
       'SUMMARY:' + esc(evTitle), 'LOCATION:' + esc(evPlace), 'DESCRIPTION:' + esc(evDesc),
@@ -824,7 +824,7 @@ const CONFIG = {
     const ics = buildICS();
     if (isIOS){ location.href = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(ics); return; }
     const url = URL.createObjectURL(new Blob([ics], { type: 'text/calendar;charset=utf-8' }));
-    const a = document.createElement('a'); a.href = url; a.download = 'maftuna-fayzullajon-toy.ics';
+    const a = document.createElement('a'); a.href = url; a.download = 'fayzullajon-maftuna-toy.ics';
     document.body.appendChild(a); a.click(); a.remove();
     setTimeout(() => URL.revokeObjectURL(url), 4000);
     toast('Fayl yuklandi. Uni ochib kalendarga qo‘shing');

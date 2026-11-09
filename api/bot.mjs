@@ -6,7 +6,7 @@
 //   POST /api/bot                            → Telegram yuboradigan yangilanishlar
 import { env, tg, json, fullName } from './_lib/telegram.mjs';
 
-const COUPLE = 'Maftuna va Fayzullajon';
+const COUPLE = 'Fayzullajon va Maftuna';
 const seenAlbums = new Set();   // bitta albom uchun bir marta “rahmat” (vaqtinchalik xotira)
 
 const handler = async (req) => {
