@@ -1,6 +1,9 @@
 /* =========================================================
    SOZLAMALAR — kerakli ma’lumotlarni shu yerda o‘zgartiring
    ========================================================= */
+// Fayllar shu skript turgan joydan olinadi (CDN’da ham, oddiy hostingda ham ishlaydi)
+const BASE = (document.currentScript && document.currentScript.src) ? new URL('.', document.currentScript.src).href : '';
+
 const CONFIG = {
   couple: 'Maftuna & Fayzullajon',
   // To‘y vaqti (Toshkent vaqti, +05:00)
@@ -15,16 +18,16 @@ const CONFIG = {
   },
   // Sahna rasmi — YOZUVSIZ bo‘lishi kerak (yozuvlar kod bilan animatsiya qilinadi).
   // Agar yozuvli rasm qo‘ysangiz, posterHasText: true qiling — animatsiyali matn yashiriladi.
-  poster: 'assets/stage.jpg',
+  poster: BASE + 'assets/stage.jpg',
   posterHasText: false,
   // Ixtiyoriy realistik teksturalar (GPT’da yaratib assets/ ga qo‘ying). Bo‘sh qolsa — kod o‘zi chizadi.
-  glitterImage: 'assets/glitter.jpg',   // bo‘sh qolsa — kod o‘zi chizadi
-  curtainImage: 'assets/velvet.jpg',    // bo‘sh qolsa — kod o‘zi chizadi
+  glitterImage: BASE + 'assets/glitter.jpg',   // bo‘sh qolsa — kod o‘zi chizadi
+  curtainImage: BASE + 'assets/velvet.jpg',    // bo‘sh qolsa — kod o‘zi chizadi
   // Tabriklar: sayt formasi shu manzilga yuboradi (Netlify funksiyasi). Bot nomi avtomatik olinadi.
   wishEndpoint: '/api/tabrik',
   botUsername: '',          // ixtiyoriy: masalan 'maftuna_fayzullajon_bot' (bo‘sh — avtomatik)
   // Fon musiqasi. Fayl bo‘lmasa, musiqa tugmasi chiqmaydi.
-  music: 'assets/music.mp3',
+  music: BASE + 'assets/music.mp3',
   musicVolume: 0.55
 };
 
@@ -51,7 +54,7 @@ const CONFIG = {
   function rng(seed){ let s = seed >>> 0 || 1; return () => { s ^= s << 13; s ^= s >>> 17; s ^= s << 5; return (s >>> 0) / 4294967296; }; }
   const loadImage = src => new Promise(res => {
     if (!src) return res(null);
-    const im = new Image(); im.onload = () => res(im); im.onerror = () => res(null); im.src = src;
+    const im = new Image(); im.crossOrigin = 'anonymous'; im.onload = () => res(im); im.onerror = () => res(null); im.src = src;
   });
   function heroSize(){ const r = hero.getBoundingClientRect(); return [Math.round(r.width), Math.round(r.height)]; }
   function drawCover(ctx, img, w, h){
@@ -639,7 +642,7 @@ const CONFIG = {
   $('#invVenue').textContent = CONFIG.venue.name;
   if (CONFIG.posterHasText) invite.hidden = true;
   const poster = $('#poster');
-  if (CONFIG.poster && poster.getAttribute('src') !== CONFIG.poster) poster.src = CONFIG.poster;
+  if (CONFIG.poster && poster.src !== new URL(CONFIG.poster, location.href).href) poster.src = CONFIG.poster;
 
   /* =========================================================
      Musiqa
