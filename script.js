@@ -28,7 +28,7 @@ const CONFIG = {
   botUsername: '',          // ixtiyoriy: masalan 'MaftunaFayzullajonbot' (bo‘sh — avtomatik)
   // Fon musiqasi. Fayl bo‘lmasa, musiqa tugmasi chiqmaydi.
   music: BASE + 'assets/music.mp3',
-  musicVolume: 0.55
+  musicVolume: 0.7
 };
 
 (() => {
@@ -360,8 +360,13 @@ const CONFIG = {
       wiping = true; [lx, ly] = local(e);
       try { hero.setPointerCapture(e.pointerId); } catch (_) {}
     });
-    hero.addEventListener('pointermove', e => {
+    hero.addEventListener('pointermove', ev => {
       if (!wiping || phase() !== 'intro') return;
+      // tez harakatda brauzer bir nechta nuqtani birlashtiradi — hammasini ishlatamiz
+      const list = ev.getCoalescedEvents ? ev.getCoalescedEvents() : [];
+      (list.length ? list : [ev]).forEach(wipeTo);
+    });
+    function wipeTo(e){
       const [x, y] = local(e), dx = x - lx, dy = y - ly, dist = Math.hypot(dx, dy);
       if (dist < 3) return;
       const steps = Math.ceil(dist / 8), ux = dx / dist, uy = dy / dist, force = Math.min(10, 2 + dist * .35);
@@ -377,7 +382,7 @@ const CONFIG = {
       tctx.globalCompositeOperation = 'source-over';
       lx = x; ly = y;
       if (cleared / total > .3 && onWipeDone) onWipeDone();
-    });
+    }
     const endWipe = () => { wiping = false; };
     hero.addEventListener('pointerup', endWipe); hero.addEventListener('pointercancel', endWipe);
 
@@ -648,19 +653,24 @@ const CONFIG = {
      Musiqa
      ========================================================= */
   const musicBtn = $('#musicToggle');
-  let audio = null, audioOk = false, fadeRaf = 0;
+  let audio = null, audioFailed = false, musicWanted = false, fadeRaf = 0;
+  const soundHint = $('#soundHint');
   if (CONFIG.music){
     audio = new Audio(); audio.loop = true; audio.preload = 'auto'; audio.src = CONFIG.music;
-    audio.addEventListener('canplay', () => { audioOk = true; musicBtn.hidden = false; }, { once: true });
-    audio.addEventListener('error', () => { audioOk = false; musicBtn.hidden = true; });
-  }
+    // iPhone’da fayl foydalanuvchi bosmaguncha yuklanmaydi — shuning uchun “tayyor”ni kutmaymiz, faqat xatoni kuzatamiz
+    audio.addEventListener('error', () => { audioFailed = true; musicBtn.hidden = true; if (soundHint) soundHint.hidden = true; });
+  } else if (soundHint) soundHint.hidden = true;
+  // Barmoq bilan artib ochilganda ham musiqa chalinishi uchun — birinchi teginishda audio’ni “uyg‘otamiz”
+  hero.addEventListener('pointerdown', e => {
+    if (phase() === 'intro' && !e.target.closest('button,a')) unlockAudio();
+  });
   function fadeTo(target, ms = 2200){
     if (!audio) return;
     cancelAnimationFrame(fadeRaf);
     const from = audio.volume, t0 = performance.now();
-    const st = now => {
-      const k = Math.min(1, (now - t0) / ms);
-      audio.volume = from + (target - from) * k;
+    const st = () => {
+      const k = Math.min(1, Math.max(0, (performance.now() - t0) / ms));
+      audio.volume = Math.min(1, Math.max(0, from + (target - from) * k));
       if (k < 1) fadeRaf = requestAnimationFrame(st);
       else if (target === 0) audio.pause();
     };
@@ -671,16 +681,17 @@ const CONFIG = {
     musicBtn.setAttribute('aria-label', on ? 'Musiqani o‘chirish' : 'Musiqani yoqish');
   }
   function playMusic(){
-    if (!audio || !audioOk) return;
+    if (!audio || audioFailed) return;
+    musicWanted = true;
     audio.volume = 0;
     const p = audio.play();
-    if (p && p.then) p.then(() => { setMusicUi(true); fadeTo(CONFIG.musicVolume); }).catch(() => setMusicUi(false));
+    if (p && p.then) p.then(() => { musicBtn.hidden = false; setMusicUi(true); fadeTo(CONFIG.musicVolume); }).catch(() => { musicBtn.hidden = false; setMusicUi(false); });
   }
   function unlockAudio(){
-    if (!audio || !audioOk || !audio.paused) return;
+    if (!audio || audioFailed || musicWanted || !audio.paused) return;
     audio.muted = true;
     const p = audio.play();
-    if (p && p.then) p.then(() => { audio.pause(); audio.currentTime = 0; audio.muted = false; }).catch(() => { audio.muted = false; });
+    if (p && p.then) p.then(() => { if (!musicWanted){ audio.pause(); audio.currentTime = 0; } audio.muted = false; }).catch(() => { audio.muted = false; });
   }
   musicBtn.addEventListener('click', () => {
     if (!audio) return;
@@ -715,7 +726,7 @@ const CONFIG = {
       setPhase('final');
       body.classList.remove('is-locked');
       startAmbient();
-      if (audioOk) musicBtn.classList.add('is-visible');
+      if (audio && !audioFailed) musicBtn.classList.add('is-visible');
     }, T.blow * SLOW + T.final);
     later(() => root.classList.add('text-done'), T.blow * SLOW + (CONFIG.posterHasText ? T.final : T.text + T.textDone));
   }
@@ -775,7 +786,7 @@ const CONFIG = {
       hint.textContent = 'Mikrofonga ruxsat berilmadi. Barmoq bilan arting yoki tugmani bosing.';
     }
   }
-  $('#startButton').addEventListener('click', () => { unlockAudio(); openInvitation(); });
+  $('#startButton').addEventListener('click', openInvitation);
   micBtn.addEventListener('click', enableMic);
 
   /* =========================================================
